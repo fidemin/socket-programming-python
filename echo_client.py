@@ -6,7 +6,8 @@ if __name__ == '__main__':
     host = sys.argv[1]
     port = int(sys.argv[2])
 
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    try:
         s.connect((host, port))
         print(f'[INFO] connected to {host}:{port}')
         while True:
@@ -20,3 +21,6 @@ if __name__ == '__main__':
             # receive data from server
             received_data = s.recv(1024)
             print(f'[INFO] received data: {received_data.decode("utf-8")}')
+    finally:
+        print('[INFO] socket closed')
+        s.close()
